@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import {
   faMagnifyingGlass,
   faMicrophone,
   faBars,
   faEllipsisV,
-  faHouse as fasHouse,
-  faCirclePlay as fasCirclePlay,
-  faRectangleList as fasRectangleList,
-  faCircleUser as fasCircleUser,
-  faClockRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  faHouse as farHouse,
-  faCirclePlay as farCirclePlay,
-  faRectangleList as farRectangleList,
   faCircleUser as farCircleUser
 } from '@fortawesome/free-regular-svg-icons';
+
+import youtubeLogo from './images/YouTube_Logo_2017.svg.png';
 
 import {
   MainContainer,
@@ -32,7 +25,7 @@ import {
   SearchInput,
   SearchButton,
   MicIcon,
-  VoiceIconContainer,
+  MicIconContainer,
   ProfileContainer,
   MoreOptions,
   MoreIcon,
@@ -40,33 +33,36 @@ import {
   LoginIcon,
   LoginText,
   PageWrapper,
-  SidebarContainer,
-  SidebarItem,
   ContentContainer,
-  SidebarText,
-  SidebarIcon,
 } from './App.style.jsx';
 
 
-import HomePage from './pages/home';
-import ShortsPage from './pages/shorts';
-import SubscriptionsPage from './pages/subscription';
-import PersonalPage from './pages/personal';
-import HistoryPage from './pages/history';
+import HomePage from './pages/home/home.jsx';
+import ShortsPage from './pages/shorts/shorts.jsx';
+import SubscriptionsPage from './pages/subscription/subscription.jsx';
+import PersonalPage from './pages/personal/personal.jsx';
+import HistoryPage from './pages/history/history.jsx';
+
+import MiniSidebar from './pages/sidebar/minisidebar.jsx';
+import ExtendSidebar from './pages/sidebar/extendsidebar.jsx';
 
 function App() {
+  const [collapse, setCollapse] = useState(false);
   const location = useLocation();
   useEffect(() => {}, [location.pathname]);
 
   return (
-    <MainContainer>
+    <MainContainer $collapse={collapse}>
+      <MiniSidebar location={location} />
+      <ExtendSidebar collapse={collapse} setCollapse={setCollapse} location={location} />
+
       <NavBarContainer>
-
         <LogoContainer>
-          <HamburgerIcon icon={faBars} />
-          <YoutubeIcon icon={faYoutube} />
+          <HamburgerIcon
+            icon={faBars} 
+            onClick={()=> setCollapse(!collapse)}/>
+          <YoutubeIcon src={youtubeLogo} alt="YouTube Logo"/>
         </LogoContainer>
-
         <SearchContainer>
           <SearchBar>
             <SearchInput placeholder="搜尋"/>
@@ -74,54 +70,24 @@ function App() {
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </SearchButton>
           </SearchBar>
-
-          <VoiceIconContainer>
+          <MicIconContainer>
             <MicIcon icon={faMicrophone} />
-          </VoiceIconContainer>
+          </MicIconContainer>
         </SearchContainer>
 
         <ProfileContainer>
           <MoreOptions>
             <MoreIcon icon={faEllipsisV} />
           </MoreOptions>
-
           <LoginButton>
             <LoginIcon icon={farCircleUser} />
             <LoginText>登入</LoginText>
           </LoginButton>
-
         </ProfileContainer>
       </NavBarContainer>
 
       <PageWrapper>
-        <SidebarContainer>
-          <SidebarItem to="/">
-            <SidebarIcon icon={location.pathname === '/' ? fasHouse : farHouse} />
-            <SidebarText>首頁</SidebarText>
-          </SidebarItem>
-
-          <SidebarItem to="/shorts">
-            <SidebarIcon icon={location.pathname === '/shorts' ? fasCirclePlay : farCirclePlay} />
-            <SidebarText>Shorts</SidebarText>
-          </SidebarItem>
-
-          <SidebarItem to="/subscriptions">
-            <SidebarIcon icon={location.pathname === '/subscriptions' ? fasRectangleList : farRectangleList} />
-            <SidebarText>訂閱內容</SidebarText>
-          </SidebarItem>
-
-          <SidebarItem to="/personal">
-            <SidebarIcon icon={location.pathname === '/personal' ? fasCircleUser : farCircleUser} />
-            <SidebarText>個人中心</SidebarText>
-          </SidebarItem>
-
-          <SidebarItem to="/history">
-            <SidebarIcon icon={faClockRotateLeft} />
-            <SidebarText>觀看紀錄</SidebarText>
-          </SidebarItem>
-        </SidebarContainer>
-
-        <ContentContainer>
+        <ContentContainer $collapse={collapse}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/shorts" element={<ShortsPage />} />

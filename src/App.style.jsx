@@ -4,18 +4,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MainContainer = styled.div`
   display: flex;
-`;
+  flex-direction: column;
 
+`;
 export const NavBarContainer = styled.nav`
   display: flex;
   align-items: center;
-
+  width: 100%;
+  justify-content:space-around;
+  
   padding: 10px 15px;
   background-color: #ffffff;
 
   position: fixed;
   top: 0;
-  z-index: 2;
+  z-index: 100;
+  
 `;
 export const LogoContainer = styled.div`
   display: flex;
@@ -24,28 +28,30 @@ export const LogoContainer = styled.div`
 export const HamburgerIcon = styled(FontAwesomeIcon)`
   width: 24px;
   height: 24px;
-  margin-right: 25px;
+  margin: 0 25px 0 10px;
   cursor: pointer;
 `;
-export const YoutubeIcon = styled(FontAwesomeIcon)`
-  width: 35px;
-  height: 35px;
-  color: #df1111;
+export const YoutubeIcon = styled.img`
+  width: 100px;
   cursor: pointer;
 `;
 
 export const SearchContainer = styled.div`
   display: flex;
+  max-width: 732px;
+  width: 100%;
   margin: 0 90px;
   align-items: center;
 `;
 
 export const SearchBar = styled.div`
   display: flex;
+  width: 100%;
+  height: 39px;
 `;
 
 export const SearchInput = styled.input`
-  width: 215px;
+  width: 100%;
   padding: 8px 16px;
   border: 1px solid #d4d4d4;
   border-right: none;
@@ -65,16 +71,26 @@ export const SearchButton = styled.button`
     background-color: #e5e5e5;
   }
 `;
-export const MicIcon = styled(FontAwesomeIcon)`
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-`;
-export const VoiceIconContainer = styled.div`
+export const MicIconContainer = styled.div`
   margin-left: 10px;
   display: flex;
   align-items: center;
-`;
+  justify-content: center;
+  width: 45px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #e5e5e5;
+  }
+  `;
+  export const MicIcon = styled(FontAwesomeIcon)`
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  `;
 export const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
@@ -91,13 +107,15 @@ export const MoreIcon = styled(FontAwesomeIcon)`
 export const LoginButton = styled.div`
   background-color: #fff;
   color: #065fd4;
-  border: 1px solid #065fd4;
+  border: 1px solid #e5e5e5;
   border-radius: 20px;
   padding: 6px 16px;
+  height: 39px;
 
   display: flex;
   align-items: center;
   cursor: pointer;
+  white-space: nowrap;
   
   &:hover {
     background-color: #e5e5e5;
@@ -116,19 +134,19 @@ export const LoginText = styled.span`
 
 export const PageWrapper = styled.div`
   display: flex;
-  padding: 35px 0;
+  margin-top: 62px;
 `;
 export const SidebarContainer = styled.nav`
   position: fixed;
   left: 0;
-  top: 0;
-  height: 100vh;
-  width: 72px; 
+  bottom: 0;
+  height: calc(100vh - 55px);
+  width: ${({ $collapse }) => ($collapse ? '240px' : '72px')}; 
   background-color: #ffffff;
-  padding-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
 `;
 export const SidebarItem = styled(Link)`
   display: flex;
@@ -136,6 +154,7 @@ export const SidebarItem = styled(Link)`
   align-items: center;
   width: 100%;
   padding: 16px 0;
+  margin-top: 5px;
   text-decoration: none;
   color: #000000;
   transition: background-color 0.2s, border-radius 0.2s;
@@ -159,5 +178,9 @@ export const SidebarText = styled.span`
 
 export const ContentContainer = styled.div`
   margin-left: 75px;
+
+  @media (max-width: 792px) {
+    margin-left: 16px;
+  }
 `;
 
