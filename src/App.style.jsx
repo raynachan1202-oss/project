@@ -11,7 +11,7 @@ export const NavBarContainer = styled.nav`
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content:space-around;
+  justify-content:space-between;
   
   padding: 10px 15px;
   background-color: #ffffff;
@@ -19,6 +19,7 @@ export const NavBarContainer = styled.nav`
   position: fixed;
   top: 0;
   z-index: 100;
+  
   
 `;
 export const LogoContainer = styled.div`
@@ -133,7 +134,6 @@ export const LoginText = styled.span`
 `;
 
 export const PageWrapper = styled.div`
-  display: flex;
   margin-top: 62px;
 `;
 export const SidebarContainer = styled.nav`
@@ -177,10 +177,22 @@ export const SidebarText = styled.span`
 `;
 
 export const ContentContainer = styled.div`
-  margin-left: 75px;
-
+  margin-left: 75px; 
+  
+  /* ExtendSidebar 展開時的狀態 */
+  ${props => props.$collapse && `
+    // margin-left: 240px; 
+  `}
+  
+  /* WatchPage時的樣式 */
+  ${props => props.$isWatchPage && `
+    margin-left: 0; 
+  `}
+  
   @media (max-width: 792px) {
-    margin-left: 16px;
+    margin: 0px;
+
   }
 `;
+
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, useLocation,useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
@@ -42,6 +42,8 @@ import ShortsPage from './pages/shorts/shorts.jsx';
 import SubscriptionsPage from './pages/subscription/subscription.jsx';
 import PersonalPage from './pages/personal/personal.jsx';
 import HistoryPage from './pages/history/history.jsx';
+import WatchPage from './pages/watch/watchpage';
+
 
 import MiniSidebar from './pages/sidebar/minisidebar.jsx';
 import ExtendSidebar from './pages/sidebar/extendsidebar.jsx';
@@ -49,19 +51,36 @@ import ExtendSidebar from './pages/sidebar/extendsidebar.jsx';
 function App() {
   const [collapse, setCollapse] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const isWatchPage = location.pathname.startsWith('/watch/');
   useEffect(() => {}, [location.pathname]);
 
+  const goToHome = () => {
+    navigate('/');
+  };
+
   return (
-    <MainContainer $collapse={collapse}>
-      <MiniSidebar location={location} />
-      <ExtendSidebar collapse={collapse} setCollapse={setCollapse} location={location} />
+    <MainContainer $collapse={collapse} $isWatchPage={isWatchPage}>
+      {!isWatchPage && (
+        <MiniSidebar location={location} />
+      )}
+      
+      <ExtendSidebar 
+        collapse={collapse} 
+        setCollapse={setCollapse} 
+        location={location} 
+      />
 
       <NavBarContainer>
         <LogoContainer>
           <HamburgerIcon
             icon={faBars} 
             onClick={()=> setCollapse(!collapse)}/>
-          <YoutubeIcon src={youtubeLogo} alt="YouTube Logo"/>
+          <YoutubeIcon 
+            src={youtubeLogo} alt="YouTube Logo"
+            onClick={goToHome}
+          />
         </LogoContainer>
         <SearchContainer>
           <SearchBar>
@@ -87,13 +106,15 @@ function App() {
       </NavBarContainer>
 
       <PageWrapper>
-        <ContentContainer $collapse={collapse}>
+        <ContentContainer $collapse={collapse} $isWatchPage={isWatchPage}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/shorts" element={<ShortsPage />} />
             <Route path="/subscriptions" element={<SubscriptionsPage />} />
             <Route path="/personal" element={<PersonalPage />} />
             <Route path="/history" element={<HistoryPage />} />
+            <Route path="/watch/:videoId" element={<WatchPage />} />
+
           </Routes>
         </ContentContainer>
       </PageWrapper>

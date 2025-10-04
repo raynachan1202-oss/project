@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   faEllipsisV,
+  faTowerBroadcast,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
-  CardContainer,
+  StyledLink,
   ThumbnailContainer,
   Thumbnail,
   VideoLength,
@@ -17,18 +19,56 @@ import {
   Title,
   ChannelName,
   VideoData,
+  ChannelLiveState,
+  ChannelUserContainer,
+  LiveState,
+  VideoPreview
 } from '@components/videocard.components/videocard.style.components';
 
 function VideoCard({ video }) {
+  const { isLive, videoUrl } = video; 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <CardContainer>
+    <StyledLink 
+      to={`/watch/${video.id}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+
       <ThumbnailContainer>
         <Thumbnail src={video.videoPicture} alt={video.title} />
-        {video.videoLength && <VideoLength>{video.videoLength}</VideoLength>}
+
+        {/* isHovered=true 且有videoUrl就可以預覽 */}
+        {isHovered && videoUrl && (
+            <VideoPreview
+                src={videoUrl} 
+                autoPlay 
+                muted
+                loop 
+            />
+        )}
+        
+        {/* 直播中情況 */}
+        {isLive ? (
+            <LiveState>
+                <FontAwesomeIcon icon={faTowerBroadcast} />
+                {isHovered ? '直播中' : '直播'} 
+            </LiveState>
+        ) : (
+            video.videoLength && <VideoLength>{video.videoLength}</VideoLength>
+        )}
+        
       </ThumbnailContainer>
 
       <VideoDetails>
-        <ChannelUser src={video.channelUserPicture} alt={video.channelName} />
+        <ChannelUserContainer $isLive={isLive}>
+          <ChannelUser src={video.channelUserPicture} alt={video.channelName}/>
+          
+          {isLive && (
+              <ChannelLiveState>直播</ChannelLiveState>
+          )}
+        </ChannelUserContainer>
 
         <VideoInfo>
           <Title> {video.title}</Title>
@@ -44,7 +84,7 @@ function VideoCard({ video }) {
         </VideoInfo>
       </VideoDetails>
       
-    </CardContainer>
+    </StyledLink>
   );
 }
 
