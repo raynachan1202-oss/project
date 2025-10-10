@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { eachVideos } from '@/pages/content/videodata.content'; 
+import { eachVideos } from '@/pages/context/videodata.context'; 
 
 import DescribeSection from '@/pages/watch/DescribeSection'
 import RelatedList from '@/components/list/relatedlist.component'
-
+import MessageSection from '@/components/message/message';
+import Resize from '@/components/resize/resize';
+import { Messages } from '@pages/context/message.context'
 
 const WatchPageLayout = styled.div`
   display: flex;
@@ -17,7 +19,7 @@ const WatchPageLayout = styled.div`
 `;
 
 const MainContent = styled.div`
-  flex: 2;
+  flex: 2.4;
   margin-right: 24px;
 
   @media (max-width: 1000px) {
@@ -65,18 +67,28 @@ const WatchSectionTitle = styled.h2`
 const WatchPage = () => {
     const { videoId } = useParams(); 
     const currentVideoId = parseInt(videoId);
-    
+
     const currentVideo = eachVideos.find(video => video.id === currentVideoId); 
-    const currentCategory = currentVideo.category;
+    if (!currentVideo) {
+        return <WatchPageLayout>找不到此影片</WatchPageLayout>;
+    }
 
-    // 篩選同類型影片
-    const relatedVideos = eachVideos.filter(video => 
-      // 影片id 不等於當前影片id
-      video.id !== currentVideoId &&
-      // 影片的category等於當前影片的category )
-      video.category === currentCategory
+    // 在message中過濾videoId，如果與當前影片相同就顯示
+    const videoMessage = Messages.filter(
+        message => message.videoId === currentVideoId
     );
+    
+    const relatedContext = {
+        currentVideoId: currentVideoId,
+        currentCategory: currentVideo.category,
+        currentChannelName: currentVideo.channelName,
+    };
 
+    const windowsSize = Resize();
+    const { width } = windowsSize;
+    const isMobileLayout = width >= 1000;
+    
+    
      return (
         <WatchPageLayout>
             <MainContent>
@@ -96,12 +108,25 @@ const WatchPage = () => {
                 
                 {/* 影片資訊區 */}
                 <DescribeSection video={currentVideo} />
+
+                {/* 留言區 */}
+                {isMobileLayout && 
+                  <MessageSection videoMessages={videoMessage} />
+                }
             </MainContent>
 
             <RelatedContent>
                 {/* 右側推薦區*/}
-                <RelatedList relatedVideos={relatedVideos} />
+                <RelatedList 
+                  allVideos={eachVideos}
+                  relatedContext={relatedContext}
+                />
             </RelatedContent>
+
+            {/* 留言區 */}
+            {!isMobileLayout && 
+                <MessageSection videoMessages={videoMessage} />
+            }
             
         </WatchPageLayout>
     );

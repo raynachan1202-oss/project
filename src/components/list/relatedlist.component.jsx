@@ -1,58 +1,67 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { React, useState } from 'react';
+
 import VideoListCard from '@/pages/watch/videolistcard'
+import { relateTabs } from '@/pages/context/relatedTabs';
 
-const ListContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    `;
+import { 
+    ListContainer,
+    TabsContainer,
+    Tab,
+    VideoList,
+} from'@/components/list/relatedlist.component.style';
 
-const TabsContainer = styled.div`
-    display: flex;
-    margin-bottom: 20px;
-    
-`;
 
-const Tab = styled.button`
-    border-radius: 8px;
-    background: none;
-    border: none;
-    padding: 8px 12px;
-    margin-right: 8px;
-    font-size: 14px;
-    cursor: pointer;
+const RelatedList = ({ allVideos, relatedContext }) => {
+    const [activeTabId, setActiveTabId] = useState( relateTabs[0].id ); 
 
-    background-color: ${props => (props.$active ? '#000' : '#f2f2f2')};
-    color: ${props => (props.$active ? '#ffffff' : '#000000')};
-  
-`;
+    const activeTab = relateTabs.find(tab => tab.id === activeTabId);
 
-const VideoList = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px; 
+    // 如果其中一個值是空的就將結果設為空陣列
+    if (!activeTab || !relatedContext || !allVideos) {
+        var relatedVideos = []; 
 
-    @media (max-width: 1000px){
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 16px;
+    } else {   
+        var relatedVideos = allVideos.filter(video => {
+            // 不能是正在播放的影片
+            if (video.id === relatedContext.currentVideoId) {
+                return false;
+            }
+
+            // 根據選中的標籤進行篩選
+            if (activeTab.taglist === 'all') {
+                return true; 
+            } 
+            
+            else if (activeTab.taglist === 'category') {
+                return video.category === relatedContext.currentCategory;
+            } 
+            
+            else if (activeTab.taglist === 'channelName') {
+                return video.channelName === relatedContext.currentChannelName;
+            } 
+            
+            else if (activeTab.taglist === 'isLive') {
+                return video.isLive === activeTab.filterValue; 
+            }
+        });
     }
-`;
-
-const RelatedList = ({ relatedVideos }) => {
-    const [activeTab, setActiveTab] = useState('全部'); 
 
     return (
         <ListContainer>
-
             {/* 上方標籤區 */}
             <TabsContainer>
-                <Tab $active={activeTab === '全部'} onClick={() => setActiveTab('全部')}>全部</Tab>
-                <Tab $active={activeTab === '系列影片內容'} onClick={() => setActiveTab('系列影片內容')}>系列影片內容</Tab>
+                {relateTabs.map(tab => (
+                    <Tab 
+                        key={tab.id}
+                        $active={activeTabId === tab.id} 
+                        onClick={() => setActiveTabId(tab.id)}
+                    >
+                        {tab.Name}
+                    </Tab>
+                ))}
             </TabsContainer>
 
-            {/* 影片列表區 */}
+            {/* 右邊影片區，顯示篩選後的結果 */}
             <VideoList>
                 {relatedVideos.map(video => (
                     <VideoListCard key={video.id} video={video} />

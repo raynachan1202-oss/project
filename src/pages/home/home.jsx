@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import VideoCard from '@/components/videocard.components/videocard.components';
-import { eachVideos } from '@/pages/content/videodata.content';
+import VideoCard from '@/components/videocard.components/index.components';
+import { eachVideos } from '@/pages/context/videodata.context';
 
 const FlexContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 0 12px;
+  padding: 15px 12px;
   gap: 16px;
 `;
 

@@ -42,7 +42,7 @@ import ShortsPage from './pages/shorts/shorts.jsx';
 import SubscriptionsPage from './pages/subscription/subscription.jsx';
 import PersonalPage from './pages/personal/personal.jsx';
 import HistoryPage from './pages/history/history.jsx';
-import WatchPage from './pages/watch/watchpage';
+import WatchPage from './pages/watch/index.watchpage';
 
 
 import MiniSidebar from './pages/sidebar/minisidebar.jsx';

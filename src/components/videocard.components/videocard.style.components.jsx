@@ -21,6 +21,8 @@ export const StyledLink = styled(Link)`
   ${CardContainer.componentStyle.rules}; //繼承樣式寫法
   text-decoration: none;
   color: inherit;
+
+  position: relative; 
 `;
 
 export const VideoPreview = styled.video`
@@ -36,12 +38,44 @@ export const ThumbnailContainer = styled.div`
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 8px;
-  overflow: hidden;
   cursor: pointer;
+  border-radius: ${({ $isHovered, $isSeries}) => ($isSeries ? '8px' : ($isHovered ? '0px' : '8px'))};
+  overflow: hidden; 
+`;
+export const Series = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
 
-  &:hover {
-     border-radius: 0px;
+  &::before {  
+    content:'';
+    display: block;
+    position: absolute;
+
+    background-color: #b0adad;
+    border: solid 1px #fff;
+
+    transform: scale(92%) translateY(-22px); 
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+
+  /* 第二層堆疊：::after */
+  &::after{
+    content: '';
+    display: block;
+    position: absolute;
+
+    background-color: #6b6868;
+    border: solid 1px #fff;
+
+    transform: scale(96%) translateY(-11px);
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
   }
 `;
 
@@ -49,6 +83,17 @@ export const Thumbnail = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+export const SeriesState = styled.span`
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: #fff;
+  padding: 2px 4px; 
+  border-radius: 4px; 
+  font-size: 12px;
+  
 `;
 
 export const VideoLength = styled.span`
@@ -84,7 +129,12 @@ export const MoreOptions = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: #e5e5e5;
+    background-color: #f2f2f2;
+  }
+  &:active {
+    background-color: #cccccc;
+    border: solid 1px #b9b8b8;
+    transform: scale(0.95);
   }
 `;
 
@@ -185,4 +235,36 @@ export const LiveState = styled.span`
   display: flex;
   align-items: center;
   gap: 2px;
+`;
+
+export const MenuContainer = styled.div`
+  width: 250px; 
+  position: absolute;
+  top: 30px;
+  right: -10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  overflow: hidden;
+`;
+export const MenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #030303;
+  cursor: pointer;
+  white-space: nowrap;
+  
+  &:hover {
+    background-color: #f2f2f2;
+  }
+
+  & > svg {
+    margin-right: 16px;
+    width: 18px;
+    height: 18px;
+    color: #000000;
+  }
 `;
