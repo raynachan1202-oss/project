@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 
 import VideoListCard from '@/pages/watch/videolistcard'
-import { relateTabs } from '@/pages/context/relatedTabs';
+import { relateTabs } from '@/context/relatedtabs';
 
 import { 
     ListContainer,
@@ -41,7 +41,7 @@ const RelatedList = ({ allVideos, relatedContext }) => {
             } 
             
             else if (activeTab.taglist === 'isLive') {
-                return video.isLive === activeTab.filterValue; 
+                return video.isLive === activeTab.isLiveValue; 
             }
         });
     }

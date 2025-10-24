@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { eachVideos } from '@/pages/context/videodata.context'; 
+import { eachVideos } from '@/context/videodata.context'; 
+import { Messages } from '@/context/message.context'
 
 import DescribeSection from '@/pages/watch/DescribeSection'
 import RelatedList from '@/components/list/relatedlist.component'
 import MessageSection from '@/components/message/message';
 import Resize from '@/components/resize/resize';
-import { Messages } from '@pages/context/message.context'
+
+import { FetchUseContext } from '@/context/fetch.context';
 
 const WatchPageLayout = styled.div`
   display: flex;
@@ -65,17 +67,35 @@ const WatchSectionTitle = styled.h2`
 `;
 
 const WatchPage = () => {
-    const { videoId } = useParams(); 
-    const currentVideoId = parseInt(videoId);
 
-    const currentVideo = eachVideos.find(video => video.id === currentVideoId); 
+    const { data, isLoading, error } = FetchUseContext(); 
+    
+    const { videoId } = useParams(); 
+    const currentVideoId = parseInt(videoId, 10);
+
+    
+    if (isLoading || data === null) {
+        return <WatchPageLayout>資料載入中...</WatchPageLayout>;
+    }
+    if (error) {
+        return <WatchPageLayout>載入錯誤：{error}</WatchPageLayout>;
+    }
+    
+    
+    const eachVideos = data.eachVideos || []; 
+    const Messages = data.Messages || [];
+    const currentVideo = eachVideos.find(video => 
+      
+      video.id === currentVideoId
+    ); 
+    
     if (!currentVideo) {
-        return <WatchPageLayout>找不到此影片</WatchPageLayout>;
+        return <WatchPageLayout>找不到此影片{currentVideoId}</WatchPageLayout>;
     }
 
-    // 在message中過濾videoId，如果與當前影片相同就顯示
+    
     const videoMessage = Messages.filter(
-        message => message.videoId === currentVideoId
+      message => message.videoId === currentVideoId
     );
     
     const relatedContext = {
@@ -84,10 +104,10 @@ const WatchPage = () => {
         currentChannelName: currentVideo.channelName,
     };
 
+    //這邊控制畫面縮放
     const windowsSize = Resize();
     const { width } = windowsSize;
     const isMobileLayout = width >= 1000;
-    
     
      return (
         <WatchPageLayout>
