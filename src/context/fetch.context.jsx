@@ -10,7 +10,7 @@ export const FetchProvider = ({ children }) => {
 
   useEffect(() => {
     // 放部署後得到的URL
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbyeGGgWQ1aAcDM0HZ9kHMPsa5F3kbzbvsr9nXE1MeH3tqjDlxsgwRMCZxcGKg6zh7-oww/exec'; 
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbweUdP_4aH8K5LstDtdUZGv0LhcktRIam2sl9W3mFHgV4KgrdomnMh5JoL79S7BApHByQ/exec'; 
     
     const fetchAllData = async () => {
       setIsLoading(true);

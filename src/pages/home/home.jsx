@@ -5,7 +5,7 @@ import { eachVideos } from '@/context/videodata.context';
 
 import { FetchUseContext } from '@/context/fetch.context';
 
-const FlexContainer = styled.div`
+export const FlexContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 15px 12px;

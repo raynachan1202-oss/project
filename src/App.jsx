@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, useLocation,useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAccess } from '@/context/authcontext'
 
 import {
   faMagnifyingGlass,
@@ -44,24 +45,54 @@ import PersonalPage from './pages/personal/personal.jsx';
 import HistoryPage from './pages/history/history.jsx';
 import WatchPage from './pages/watch/index.watchpage';
 
-
 import MiniSidebar from './pages/sidebar/minisidebar.jsx';
 import ExtendSidebar from './pages/sidebar/extendsidebar.jsx';
+
+import LoginPage from './pages/logpage/login';
+import UnLoggin from './pages/logpage/unloggin';
 
 function App() {
   const [collapse, setCollapse] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { isLoggedIn, logout } = useAccess(); 
+
   const isWatchPage = location.pathname.startsWith('/watch/');
+  // 判斷是否在登入頁面
+  const isLoginPage = location.pathname === '/login';
   useEffect(() => {}, [location.pathname]);
 
   const goToHome = () => {
     navigate('/');
   };
 
+
+  const handleLoginOrLogout = () => {
+    if (isLoggedIn) {
+      logout();
+      if (location.pathname !== '/') {
+          navigate('/'); // 登出後回首頁
+      }
+    } else {
+      // 未登入就到login
+      navigate('/login');
+    }
+  };
+
+  // 根據登入狀態決定首頁要渲染哪個部分
+  const HomeContent = isLoggedIn 
+    ? <HomePage />
+    : <UnLoggin onLoginClick={() => navigate('/login')} />; 
+
+  // 如果在登入頁面，只渲染 LoginPage
+  if (isLoginPage) {
+    return <LoginPage />;
+  }
+
   return (
     <MainContainer $collapse={collapse} $isWatchPage={isWatchPage}>
+
       {!isWatchPage && (
         <MiniSidebar location={location} />
       )}
@@ -98,9 +129,9 @@ function App() {
           <MoreOptions>
             <MoreIcon icon={faEllipsisV} />
           </MoreOptions>
-          <LoginButton>
+          <LoginButton onClick={handleLoginOrLogout}>
             <LoginIcon icon={farCircleUser} />
-            <LoginText>登入</LoginText>
+            <LoginText>{isLoggedIn ? '登出' : '登入'}</LoginText>
           </LoginButton>
         </ProfileContainer>
       </NavBarContainer>
@@ -108,12 +139,13 @@ function App() {
       <PageWrapper>
         <ContentContainer $collapse={collapse} $isWatchPage={isWatchPage}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={HomeContent} />
             <Route path="/shorts" element={<ShortsPage />} />
             <Route path="/subscriptions" element={<SubscriptionsPage />} />
             <Route path="/personal" element={<PersonalPage />} />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/watch/:videoId" element={<WatchPage />} />
+            <Route path="/login" element={<LoginPage />} />
 
           </Routes>
         </ContentContainer>
