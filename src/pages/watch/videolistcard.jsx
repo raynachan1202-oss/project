@@ -17,6 +17,11 @@ import {
   MoreIcon,
 } from '@components/videocard.components/videocard.style.components';
 
+import { formatRelativeTime } from '@components/time'
+import { formatViewCount } from '@components/viewcount'
+
+
+
 const ListCardContainer = styled(Link)`
   display: flex;
   width: 100%;
@@ -155,6 +160,9 @@ function VideoListCard({ video }) {
     const { isLive } = video; 
     const [isHovered, setIsHovered] = useState(false);
 
+    const relativeTime = formatRelativeTime(video.uploadedTime);
+    const formattedViews = formatViewCount(video.views);
+
     return (
         <ListCardContainer 
             to={`/watch/${video.id}`}
@@ -188,7 +196,7 @@ function VideoListCard({ video }) {
                 <ListChannelName>{video.channelName}</ListChannelName>
                 
                 <ListVideoData>
-                    觀看次數：{video.views} 次 • {video.uploadedTime}
+                    觀看次數：{formattedViews} 次 • {relativeTime}
                 </ListVideoData>
 
                 <ListMoreOptions>

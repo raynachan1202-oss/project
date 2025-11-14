@@ -30,7 +30,6 @@ const Text = styled.p`
     color: #606060;
 `;
 
-// 接收一個 onLoginClick 函式來觸發 App.jsx 中的彈窗
 const UnLoggin = ({ onLoginClick }) => {
   return (
     <TextContainer>

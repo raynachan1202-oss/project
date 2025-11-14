@@ -41,7 +41,11 @@ const RelatedList = ({ allVideos, relatedContext }) => {
             } 
             
             else if (activeTab.taglist === 'isLive') {
-                return video.isLive === activeTab.isLiveValue; 
+                const targetIsLive = (typeof activeTab.isLiveValue === 'string')
+                    ? activeTab.isLiveValue.toUpperCase() === 'TRUE'
+                    : activeTab.isLiveValue;
+
+                return video.isLive === targetIsLive; 
             }
         });
     }

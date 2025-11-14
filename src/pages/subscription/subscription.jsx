@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import '@pages/subscription/subscription.style';
+import {
+  Container,
+} from '@pages/subscription/subscription.style';
 
 const SubscriptionsPage = () => {
   return (
-    <div>
+    <Container>
       <h1>SubscriptionsPage</h1>
       <p>SubscriptionsPage的內容</p>
-    </div>
+    </Container>
   );
 };
 

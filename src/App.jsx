@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, useLocation,useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAccess } from '@/context/authcontext'
+import { useAccess } from '@/context/auth'
 
 import {
   faMagnifyingGlass,
   faMicrophone,
   faBars,
   faEllipsisV,
+
+  faPlus,
+  faBell,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCircleUser as farCircleUser
@@ -34,7 +37,8 @@ import {
   LoginIcon,
   LoginText,
   PageWrapper,
-  ContentContainer,
+  CreateButton,
+  UserImage,
 } from './App.style.jsx';
 
 
@@ -48,7 +52,6 @@ import WatchPage from './pages/watch/index.watchpage';
 import MiniSidebar from './pages/sidebar/minisidebar.jsx';
 import ExtendSidebar from './pages/sidebar/extendsidebar.jsx';
 
-import LoginPage from './pages/logpage/login';
 import UnLoggin from './pages/logpage/unloggin';
 
 function App() {
@@ -56,11 +59,11 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { isLoggedIn, logout } = useAccess(); 
+  const { isLoggedIn, logout, user, signInWithGoogle } = useAccess(); 
+  const userPhotoUrl = user?.photoURL;
 
   const isWatchPage = location.pathname.startsWith('/watch/');
-  // 判斷是否在登入頁面
-  const isLoginPage = location.pathname === '/login';
+  
   useEffect(() => {}, [location.pathname]);
 
   const goToHome = () => {
@@ -68,7 +71,7 @@ function App() {
   };
 
 
-  const handleLoginOrLogout = () => {
+  const handleLoginOrLogout = async () => {
     if (isLoggedIn) {
       logout();
       if (location.pathname !== '/') {
@@ -76,19 +79,20 @@ function App() {
       }
     } else {
       // 未登入就到login
-      navigate('/login');
+      const result = await signInWithGoogle();
+      if (result.success) {
+        console.log("Google 登入成功");
+      } else {
+          console.log("Google 登入失敗");
+      }
     }
   };
 
   // 根據登入狀態決定首頁要渲染哪個部分
   const HomeContent = isLoggedIn 
     ? <HomePage />
-    : <UnLoggin onLoginClick={() => navigate('/login')} />; 
+    : <UnLoggin />; 
 
-  // 如果在登入頁面，只渲染 LoginPage
-  if (isLoginPage) {
-    return <LoginPage />;
-  }
 
   return (
     <MainContainer $collapse={collapse} $isWatchPage={isWatchPage}>
@@ -126,29 +130,54 @@ function App() {
         </SearchContainer>
 
         <ProfileContainer>
-          <MoreOptions>
-            <MoreIcon icon={faEllipsisV} />
-          </MoreOptions>
-          <LoginButton onClick={handleLoginOrLogout}>
-            <LoginIcon icon={farCircleUser} />
-            <LoginText>{isLoggedIn ? '登出' : '登入'}</LoginText>
+          {isLoggedIn ? (
+            <>
+              <CreateButton>
+                <MoreIcon icon={faPlus} />
+                <span>建立</span>
+              </CreateButton>
+
+              {/* 建立鈴鐺 */}
+              <MoreOptions>
+                  <MoreIcon icon={faBell} /> 
+              </MoreOptions>
+            </>
+            ) : (
+                <MoreOptions>
+                    <MoreIcon icon={faEllipsisV} />
+                </MoreOptions>
+            )}
+            
+          <LoginButton onClick={handleLoginOrLogout} $isLoggedIn={isLoggedIn}>
+
+            {/* 已登入且有頭像 顯示圖像 */}
+            {isLoggedIn && user && user.photoURL ? (
+              <UserImage 
+                src={user.photoURL}
+              />
+            ) : (
+              // 未登入，或已登入但無頭像 顯示預設圖示
+              <>
+                <LoginIcon icon={farCircleUser} />
+                <LoginText>登入</LoginText>
+              </>
+            )}
           </LoginButton>
         </ProfileContainer>
       </NavBarContainer>
 
       <PageWrapper>
-        <ContentContainer $collapse={collapse} $isWatchPage={isWatchPage}>
           <Routes>
             <Route path="/" element={HomeContent} />
             <Route path="/shorts" element={<ShortsPage />} />
             <Route path="/subscriptions" element={<SubscriptionsPage />} />
             <Route path="/personal" element={<PersonalPage />} />
             <Route path="/history" element={<HistoryPage />} />
-            <Route path="/watch/:videoId" element={<WatchPage />} />
-            <Route path="/login" element={<LoginPage />} />
-
+            <Route 
+                path="/watch/:videoId" 
+                element={<WatchPage currentUserPhotoUrl={userPhotoUrl} />} 
+            />
           </Routes>
-        </ContentContainer>
       </PageWrapper>
     </MainContainer>
   );

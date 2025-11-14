@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import '@pages/history/history.style';
+import {
+  Container,
+} from '@pages/history/history.style';
 
 const HistoryPage = () => {
   return (
-    <div>
+    <Container>
       <h1>HistoryPage</h1>
       <p>HistoryPage的內容</p>
-    </div>
+    </Container>
   );
 };
 

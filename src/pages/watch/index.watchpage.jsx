@@ -66,13 +66,17 @@ const WatchSectionTitle = styled.h2`
   margin: 0; 
 `;
 
-const WatchPage = () => {
+const WatchPage = ({ currentUserPhotoUrl }) => {
 
     const { data, isLoading, error } = FetchUseContext(); 
     
     const { videoId } = useParams(); 
     const currentVideoId = parseInt(videoId, 10);
 
+    //這邊控制畫面縮放
+    const windowsSize = Resize();
+    const { width } = windowsSize;
+    const isMobileLayout = width >= 1000;
     
     if (isLoading || data === null) {
         return <WatchPageLayout>資料載入中...</WatchPageLayout>;
@@ -104,10 +108,6 @@ const WatchPage = () => {
         currentChannelName: currentVideo.channelName,
     };
 
-    //這邊控制畫面縮放
-    const windowsSize = Resize();
-    const { width } = windowsSize;
-    const isMobileLayout = width >= 1000;
     
      return (
         <WatchPageLayout>
@@ -131,7 +131,10 @@ const WatchPage = () => {
 
                 {/* 留言區 */}
                 {isMobileLayout && 
-                  <MessageSection videoMessages={videoMessage} />
+                  <MessageSection 
+                    videoMessages={videoMessage}
+                    currentUserPhotoUrl={currentUserPhotoUrl}
+                  />
                 }
             </MainContent>
 
@@ -145,7 +148,7 @@ const WatchPage = () => {
 
             {/* 留言區 */}
             {!isMobileLayout && 
-                <MessageSection videoMessages={videoMessage} />
+                <MessageSection videoMessages={videoMessage} currentUserPhotoUrl={currentUserPhotoUrl}/>
             }
             
         </WatchPageLayout>

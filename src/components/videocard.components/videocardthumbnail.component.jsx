@@ -16,7 +16,13 @@ import {
   SeriesState,
 } from '@components/videocard.components/videocard.style.components'
 
-function VideoCardThumbnail({ video, isHovered, isSeries, isLive, videoUrl }) {
+function VideoCardThumbnail({ video, isHovered, isSeries, isLive, videoUrl, countdownTime, formatTime }) {
+
+    const displayTime = isHovered && !isLive && !isSeries && countdownTime >= 0
+        ? formatTime(countdownTime)
+        : video.videoLength;
+    const showPreview = !isSeries && isHovered && videoUrl;
+    
     return (
         <>
             {isSeries && <Series/>}
@@ -27,8 +33,8 @@ function VideoCardThumbnail({ video, isHovered, isSeries, isLive, videoUrl }) {
             >
                 <Thumbnail src={video.videoPicture} alt={video.title} />
 
-                {/* 影片預覽：非合輯、非直播、且有 hover 時才顯示 */}
-                {!isSeries && !isLive && isHovered && videoUrl && (
+                {/* 影片預覽 */}
+                {showPreview && (
                     <VideoPreview
                         src={videoUrl} 
                         autoPlay 
@@ -52,7 +58,7 @@ function VideoCardThumbnail({ video, isHovered, isSeries, isLive, videoUrl }) {
                         </SeriesState>
                     )
                 ) : ( 
-                    video.videoLength && <VideoLength>{video.videoLength}</VideoLength>
+                    displayTime && <VideoLength>{displayTime}</VideoLength>
                 )}
             </ThumbnailContainer>
         </>

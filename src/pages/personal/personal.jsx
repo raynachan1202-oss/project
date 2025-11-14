@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import '@pages/personal/personal.style';
+import {
+  Container,
+} from '@pages/personal/personal.style';
 
 const PersonalPage = () => {
   return (
-    <div>
+    <Container>
       <h1>PersonalPage</h1>
       <p>PersonalPage的內容</p>
-    </div>
+    </Container>
   );
 };
 

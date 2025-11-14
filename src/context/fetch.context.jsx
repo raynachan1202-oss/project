@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const FetchContext = createContext({});
 
 export const FetchProvider = ({ children }) => {
-  // 🎯 修正：初始狀態設定為 null，並加入載入和錯誤狀態
+  
   const [data, setData] = useState(null); 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);

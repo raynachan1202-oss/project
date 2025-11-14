@@ -19,8 +19,6 @@ export const NavBarContainer = styled.nav`
   position: fixed;
   top: 0;
   z-index: 100;
-  
-  
 `;
 export const LogoContainer = styled.div`
   display: flex;
@@ -87,47 +85,118 @@ export const MicIconContainer = styled.div`
     background-color: #e5e5e5;
   }
   `;
-  export const MicIcon = styled(FontAwesomeIcon)`
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  `;
+export const MicIcon = styled(FontAwesomeIcon)`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+`;
 export const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
 `;
 export const MoreOptions = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  margin-right: 5px;
+    
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
 `;
 export const MoreIcon = styled(FontAwesomeIcon)`
   width: 20px;
   height: 20px;
   cursor: pointer;
 `;
-export const LoginButton = styled.div`
-  background-color: #fff;
-  color: #065fd4;
-  border: 1px solid #e5e5e5;
-  border-radius: 20px;
-  padding: 6px 16px;
-  height: 39px;
 
+export const LoginButton = styled.button`
   display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+    
+  /* 根據 $isLoggedIn 決定樣式 */
+  ${props => props.$isLoggedIn ? `
+    padding: 0;
+    width: 40px; /* 略大於圖片的容器 */
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+        
+    /* 隱藏 LoginIcon 和 LoginText */
+    ${LoginIcon}, ${LoginText} {
+      display: none;
+      }
+
+  ` : `
+    /* *** 未登入狀態 *** */
+    background-color: #fff;
+    color: #065fd4;
+    border: 1px solid #e5e5e5;
+    border-radius: 20px;
+    padding: 6px 16px;
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    white-space: nowrap;
+        
+    &:hover {
+      background-color: #e5e5e5; 
+    }
+  `}
+`;
+
+export const CreateButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f2f2f2; 
+  border: none;
+  border-radius: 20px; 
+  padding: 8px 16px;
+  margin-right: 8px;
   cursor: pointer;
   white-space: nowrap;
-  
+
+  color: #0f0f0f;
+  font-size: 14px;
+  font-weight: 500;
+    
+  /* 讓 + 號和文字靠近 */
+  ${MoreIcon} {
+    width: 16px; 
+    height: 16px;
+    margin-right: 6px; 
+  }
+    
   &:hover {
     background-color: #e5e5e5;
   }
 `;
-
+export const UserImage = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-left: 5px;
+  
+  object-fit: cover; 
+`;
 export const LoginIcon = styled(FontAwesomeIcon)`
   width: 20px;
   height: 20px;
   margin-right: 8px;
-  `;
+
+  ${props => props.$isLoggedIn && `display: none;`}
+`;
 
 export const LoginText = styled.span`
   font-size: 14px;

@@ -9,6 +9,10 @@ import {
     faEllipsis,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { formatRelativeTime } from '@components/time'
+import { formatViewCount } from '@components/viewcount'
+
+
 const SectionContainer = styled.div`
     width: 100%;
     padding-top: 20px;
@@ -172,6 +176,12 @@ const DescribeSection = ({ video }) => {
         setIsExpanded(!isExpanded);
     };
 
+    const relativeTime = formatRelativeTime(video.uploadedTime);
+    const formattedViews = formatViewCount(video.views);
+
+    const formattedSubscriberCount = formatViewCount(video.subscriberCount);
+    
+
     return (
         <SectionContainer>
             <Title>{video.title}</Title>
@@ -181,7 +191,7 @@ const DescribeSection = ({ video }) => {
                     <ChannelPicture src={video.channelUserPicture} alt={video.channelName} />
                     <ChannelText>
                         <ChannelName>{video.channelName}</ChannelName>
-                        <SubscriberCount>{video.subscriberCount}訂閱</SubscriberCount> 
+                        <SubscriberCount>{formattedSubscriberCount}位訂閱者</SubscriberCount> 
                     </ChannelText>
                     <SubscribeButton>訂閱</SubscribeButton>
                 </ChannelInfo>
@@ -211,7 +221,7 @@ const DescribeSection = ({ video }) => {
 
             <DescriptionContainer>
                 <MetadataText>
-                    觀看次數: {video.views}次 • {video.uploadedTime}
+                    觀看次數: {formattedViews}次 • {relativeTime}
                 </MetadataText>
 
                 <DescriptionText $isExpanded={isExpanded}>
