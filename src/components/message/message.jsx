@@ -287,7 +287,7 @@ const MessageSection = ({ videoMessages = [], currentUserPhotoUrl }) => {
                             <UserPicture $url={message.authorPicture}/>
                             <MessageBody>
                                 <MessageHeader>
-                                    <MessageAuthor>{message.author}</MessageAuthor>
+                                    <MessageAuthor>@{message.author}</MessageAuthor>
                                     {messageRelativeTime}
                                 </MessageHeader>
                                 <MessageText>{message.text}</MessageText>
