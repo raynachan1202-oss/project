@@ -21,7 +21,9 @@ import {
   MoreIcon,
   MenuContainer,
   MenuItem,
-} from '@components/videocard.components/videocard.style.components'
+} from '@components/videocard.components/menu.style'
+
+
 
 // 接收來自index.component裡的videocard的props
 function VideoCardMenu({ isMenuOpen, handleMenuToggle, handleMenuClose }) {

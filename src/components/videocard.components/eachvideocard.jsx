@@ -9,13 +9,13 @@ import {
   VideoData,
   ChannelLiveState,
   ChannelUserContainer,
-} from '@components/videocard.components/videocard.style.components';
+} from '@/components/videocard.components/eachvideocard.style';
 
-import VideoCardThumbnail from '@/components/videocard.components/videocardthumbnail.component'
+import VideoCardThumbnail from '@/components/videocard.components/videocardthumbnail'
 import VideoCardMenu from '@components/videocard.components/menu.component'
 
 import { formatRelativeTime } from '@components/time'
-import { formatViewCount } from '@components/viewcount'
+import { formatViewCount } from '@/components/formatviewcount'
 
 
 //時間倒數部分

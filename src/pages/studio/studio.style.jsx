@@ -69,8 +69,8 @@ export const Card = styled.div`
 `;
 
 export const UploadCardWrapper = styled(Card)`
-    /* flex-grow: 1; */
     margin-right: 20px;
+    width: 100%;
     height: 600px;
     display: flex;
     flex-direction: column;

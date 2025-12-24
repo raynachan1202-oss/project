@@ -47,4 +47,3 @@ function MiniSidebar({ location }) {
 }
 
 export default MiniSidebar;
-              

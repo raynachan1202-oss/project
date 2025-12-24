@@ -14,7 +14,7 @@ import {
   VideoPreview,
   Series,
   SeriesState,
-} from '@components/videocard.components/videocard.style.components'
+} from '@/components/videocard.components/videocardthumbnail.style'
 
 function VideoCardThumbnail({ video, isHovered, isSeries, isLive, videoUrl, countdownTime, formatTime }) {
 

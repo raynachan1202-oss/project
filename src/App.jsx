@@ -80,8 +80,7 @@ function App() {
       if (isStudioPage) {
         // 如果在 Studio 頁面登出，則跳轉回首頁 (/)
         navigate('/');
-      } 
-      // 💡 注意：如果您希望在任何頁面登出都跳回首頁，可以移除 if (isStudioPage) 的判斷。
+      }
     }
   }, [isLoggedIn, navigate, isStudioPage]);
 
@@ -89,9 +88,8 @@ function App() {
     navigate('/');
   };
   
-  // 新增這個函式來處理導航到工作室
+  // 導航到工作室
   const goToStudio = () => {
-    // 假設您的工作室頁面路徑是 '/studio'
     navigate('/studio'); 
   };
 
