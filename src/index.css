@@ -8,3 +8,15 @@
   height: 0px;
   object-fit: cover; /* 圖片會自動填滿並裁切多餘部分 */
 }
+body {
+  margin: 0;
+  /* 這一串是目前的「系統字體金標準」，會優先呼叫各個作業系統最好看的內建黑體 */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    "Microsoft JhengHei",  /* 微軟正黑體 (Windows) */
+    "PingFang TC",         /* 蘋方體 (Mac/iOS) */
+    sans-serif;            /* 最終回退：無襯線體 */
+    
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
