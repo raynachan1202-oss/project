@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import VideoCard from '@/components/videocard.components/homepage.components';
-import { eachVideos } from '@/context/videodata.context';
+import VideoCard from '@/components/videocard.components/eachvideocard';
 
 import { FetchUseContext } from '@/context/fetch.context';
 
@@ -13,7 +12,7 @@ export const FlexContainer = styled.div`
   margin-left: 65px;
   @media (max-width: 792px) {
     margin: 0px;
-
+    
   }
 `;
 

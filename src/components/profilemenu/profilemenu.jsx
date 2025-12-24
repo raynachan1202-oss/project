@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { 
     faUserCircle, 
     faExchangeAlt, 
@@ -13,104 +12,26 @@ import {
     faQuestionCircle,
     faCommentDots 
 } from '@fortawesome/free-solid-svg-icons';
+
 import {
     faGoogle,
 } from '@fortawesome/free-brands-svg-icons';
+
 import {
-    faCircleUser as farCircleUser 
-} from '@fortawesome/free-regular-svg-icons';
+    Container,
+    ProfileHeader,
+    UserImage,
+    DefaultUserIcon,
+    UserInfo,
+    UserName,
+    UserHandle,
+    ChannelLink,
+    MenuItem,
+    MenuIcon,
+    Separator,
+} from '@components/profilemenu/profilemenu.style';
 
 
-
-const Container = styled.div`
-    position: absolute;
-    top: 50px;
-    right: 0;
-    width: 300px;
-    height: 100px;
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 12px;
-    z-index: 1000;
-    padding: 10px 0;
-    font-size: 14px;
-    color: #0f0f0f;
-    overflow: hidden;
-`;
-
-const ProfileHeader = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    border-bottom: 1px solid #e5e5e5;
-    margin-bottom: 8px;
-`;
-
-const UserImage = styled.img`
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 15px;
-    object-fit: cover;
-`;
-
-const DefaultUserIcon = styled(FontAwesomeIcon).attrs({ icon: farCircleUser })`
-    width: 40px;
-    height: 40px;
-    color: #606060;
-    margin-right: 15px;
-`;
-
-const UserInfo = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const UserName = styled.span`
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 2px;
-`;
-
-const UserHandle = styled.span`
-    color: #606060;
-`;
-
-const ChannelLink = styled.a`
-    color: #065fd4;
-    font-weight: 500;
-    margin-top: 8px;
-    text-decoration: none;
-    font-size: 14px;
-
-    &:hover {
-        text-decoration: underline;
-    }
-`;
-
-const MenuItem = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    cursor: pointer;
-    line-height: 1.5;
-
-    &:hover {
-        background-color: #f2f2f2;
-    }
-`;
-
-const MenuIcon = styled(FontAwesomeIcon)`
-    width: 18px;
-    margin-right: 15px;
-    color: #606060;
-`;
-
-const Separator = styled.hr`
-    border: none;
-    border-top: 1px solid #e5e5e5;
-    margin: 8px 0;
-`;
 
 
 const handleAction = (text, closeMenu) => {

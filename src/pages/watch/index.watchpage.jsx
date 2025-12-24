@@ -1,70 +1,26 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { eachVideos } from '@/context/videodata.context'; 
-import { Messages } from '@/context/message.context'
 
-import DescribeSection from '@/pages/watch/DescribeSection'
+import { 
+  WatchPageLayout,
+  MainContent,
+  RelatedContent,
+  WatchSection,
+  VideoPlayer,
+  WatchSectionTitle,
+} from '@pages/watch/index.watchpage.style'
+
+
+import DescribeSection from '@/components/videocard.components/describeSection'
 import RelatedList from '@/components/list/relatedlist.component'
 import MessageSection from '@/components/message/message';
 import Resize from '@/components/resize/resize';
 
+
+
 import { FetchUseContext } from '@/context/fetch.context';
 
-const WatchPageLayout = styled.div`
-  display: flex;
-  padding: 24px 20px 0 30px;
 
-  @media (max-width: 1000px) {
-    flex-direction: column; 
-  }
-`;
-
-const MainContent = styled.div`
-  flex: 2.4;
-  margin-right: 24px;
-
-  @media (max-width: 1000px) {
-  margin-right: 0px;
-
-  }
-`;
-
-const RelatedContent = styled.div`
-  flex: 1;
-
-  @media (max-width: 1000px) {
-    flex: none; 
-    width: 100%;
-    margin-top: 24px;
-  }
-`;
-const WatchSection = styled.div`
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-
-
-  @media (max-width: 1000px) {
-    width: 100vw; 
-    margin-left: -30px; 
-  }
-`;
-const VideoPlayer = styled.video`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const WatchSectionTitle = styled.h2`
-  color: white;
-  padding: 10px;
-  margin: 0; 
-`;
 
 const WatchPage = ({ currentUserPhotoUrl }) => {
 
@@ -88,8 +44,8 @@ const WatchPage = ({ currentUserPhotoUrl }) => {
     
     const eachVideos = data.eachVideos || []; 
     const Messages = data.Messages || [];
+
     const currentVideo = eachVideos.find(video => 
-      
       video.id === currentVideoId
     ); 
     
